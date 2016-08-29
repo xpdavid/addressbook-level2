@@ -19,11 +19,11 @@ public class PostalCode {
      * @throws IllegalValueException if given postalCode is invalid.
      */
     public PostalCode(String postalCode) throws IllegalValueException {
-    	    postalCode = postalCode.trim();
-        if (!isValidPostalCode(postalCode)) {
+    	    String thePostalCode = postalCode.trim();
+        if (!isValidPostalCode(thePostalCode)) {
             throw new IllegalValueException(MESSAGE_POSTAL_CODE_CONSTRAINTS);
         }
-        this.value = postalCode;
+        this.value = thePostalCode;
     }
 
     /**

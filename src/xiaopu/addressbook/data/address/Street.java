@@ -19,11 +19,11 @@ public class Street {
      * @throws IllegalValueException if given street name is invalid.
      */
     public Street(String street) throws IllegalValueException {
-    	    street = street.trim();
-        if (!isValidStreet(street)) {
+    	    String theStreet = street.trim();
+        if (!isValidStreet(theStreet)) {
             throw new IllegalValueException(MESSAGE_STREET_CONSTRAINTS);
         }
-        this.value = street;
+        this.value = theStreet;
     }
 
     /**

@@ -19,11 +19,11 @@ public class Block {
      * @throws IllegalValueException if given block name is invalid.
      */
     public Block(String block) throws IllegalValueException {
-        block = block.trim();
-        if (!isValidBlock(block)) {
+        String theBlock = block.trim();
+        if (!isValidBlock(theBlock)) {
             throw new IllegalValueException(MESSAGE_BLOCK_CONSTRAINTS);
         }
-        this.value = block;
+        this.value = theBlock;
     }
 
     /**

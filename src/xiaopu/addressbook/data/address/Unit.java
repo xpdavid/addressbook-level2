@@ -19,11 +19,11 @@ public class Unit {
      * @throws IllegalValueException if given unit name is invalid.
      */
     public Unit(String unit) throws IllegalValueException {
-    	    unit = unit.trim();
-        if (!isValidUnit(unit)) {
+    	    String theUnit = unit.trim();
+        if (!isValidUnit(theUnit)) {
             throw new IllegalValueException(MESSAGE_UNIT_CONSTRAINTS);
         }
-        this.value = unit;
+        this.value = theUnit;
     }
 
     /**

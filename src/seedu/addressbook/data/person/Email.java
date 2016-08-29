@@ -23,11 +23,11 @@ public class Email {
      */
     public Email(String email, boolean isPrivate) throws IllegalValueException {
         this.isPrivate = isPrivate;
-        email = email.trim();
-        if (!isValidEmail(email)) {
+        String theEmail = email.trim();
+        if (!isValidEmail(theEmail)) {
             throw new IllegalValueException(MESSAGE_EMAIL_CONSTRAINTS);
         }
-        this.value = email;
+        this.value = theEmail;
     }
 
     /**
