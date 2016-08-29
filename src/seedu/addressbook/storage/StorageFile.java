@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -19,6 +20,8 @@ public class StorageFile {
 
     /** Default file path used if the user doesn't provide the file name. */
     public static final String DEFAULT_STORAGE_FILEPATH = "addressbook.txt";
+    
+    public static final int MAXIMUM_TRIES_RECOVERING_FROM_EXCEPTION = 3;
 
     /* Note: Note the use of nested classes below.
      * More info https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
@@ -39,6 +42,15 @@ public class StorageFile {
      */
     public static class StorageOperationException extends Exception {
         public StorageOperationException(String message) {
+            super(message);
+        }
+    }
+    
+    /**
+     * Signals that Storage file has been deleted while trying to write data into the file
+     */
+    public static class StorageFileIsDeleteException extends StorageOperationException {
+        public StorageFileIsDeleteException(String message) {
             super(message);
         }
     }
@@ -77,6 +89,39 @@ public class StorageFile {
     private static boolean isValidPath(Path filePath) {
         return filePath.toString().endsWith(".txt");
     }
+    
+    /**
+     * Returns true if the given path to file exists. Otherwise return false
+     * 
+     * @param filePath
+     * @return
+     */
+    private static boolean isFileExists(Path filePath) {
+        return Files.exists(filePath);
+    }
+    
+    /**
+     * Tries to create file
+     * 
+     * @throws StorageOperationException
+     */
+    private static void createFile(Path filePath) throws IOException {
+       filePath.toFile().createNewFile();
+    }
+    
+    /**
+     * Gets writer for the storage file
+     * 
+     * @return
+     * @throws IOException
+     * @throws StorageFileIsDeleteException
+     */
+    private Writer getWriterForStorageFile() throws IOException, StorageFileIsDeleteException {
+        if (!isFileExists(path)) {
+            throw new StorageFileIsDeleteException("Storage file has been deleted while the programm is running");
+        }
+        return new BufferedWriter(new FileWriter(path.toFile()));
+    }
 
     /**
      * Saves all data to this storage file.
@@ -88,19 +133,27 @@ public class StorageFile {
         /* Note: Note the 'try with resource' statement below.
          * More info: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
          */
-        try (final Writer fileWriter =
-                     new BufferedWriter(new FileWriter(path.toFile()))) {
-
-            final AdaptedAddressBook toSave = new AdaptedAddressBook(addressBook);
-            final Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(toSave, fileWriter);
-
-        } catch (IOException ioe) {
-            throw new StorageOperationException("Error writing to file: " + path);
-        } catch (JAXBException jaxbe) {
-            throw new StorageOperationException("Error converting address book into storage format");
-        }
+       for(int i = 1; i <= MAXIMUM_TRIES_RECOVERING_FROM_EXCEPTION; i++) {
+           try (final Writer fileWriter = getWriterForStorageFile()) {
+                final AdaptedAddressBook toSave = new AdaptedAddressBook(addressBook);
+                final Marshaller marshaller = jaxbContext.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.marshal(toSave, fileWriter); 
+                break;
+            } catch (IOException ioe) {
+                throw new StorageOperationException("Error writing to file: " + path);
+            } catch (JAXBException jaxbe) {
+                throw new StorageOperationException("Error converting address book into storage format");
+            } catch (StorageFileIsDeleteException sfide) {
+                // try to recover from exception
+                try {
+                    createFile(path);
+                } catch (IOException ioe) {
+                    throw new StorageOperationException("Cannot create file: " + path);
+                }
+            }
+       }
+        
     }
 
     /**
