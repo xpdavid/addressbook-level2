@@ -20,8 +20,6 @@ public class StorageFile {
 
     /** Default file path used if the user doesn't provide the file name. */
     public static final String DEFAULT_STORAGE_FILEPATH = "addressbook.txt";
-    
-    public static final int MAXIMUM_TRIES_RECOVERING_FROM_EXCEPTION = 3;
 
     /* Note: Note the use of nested classes below.
      * More info https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html
@@ -133,27 +131,18 @@ public class StorageFile {
         /* Note: Note the 'try with resource' statement below.
          * More info: https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html
          */
-       for(int i = 1; i <= MAXIMUM_TRIES_RECOVERING_FROM_EXCEPTION; i++) {
-           try (final Writer fileWriter = getWriterForStorageFile()) {
-                final AdaptedAddressBook toSave = new AdaptedAddressBook(addressBook);
-                final Marshaller marshaller = jaxbContext.createMarshaller();
-                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshaller.marshal(toSave, fileWriter); 
-                break;
-            } catch (IOException ioe) {
-                throw new StorageOperationException("Error writing to file: " + path);
-            } catch (JAXBException jaxbe) {
-                throw new StorageOperationException("Error converting address book into storage format");
-            } catch (StorageFileIsDeleteException sfide) {
-                // try to recover from exception
-                try {
-                    createFile(path);
-                } catch (IOException ioe) {
-                    throw new StorageOperationException("Cannot create file: " + path);
-                }
-            }
-       }
-        
+       try (final Writer fileWriter = getWriterForStorageFile()) {
+            final AdaptedAddressBook toSave = new AdaptedAddressBook(addressBook);
+            final Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(toSave, fileWriter); 
+        } catch (IOException ioe) {
+            throw new StorageOperationException("Error writing to file: " + path);
+        } catch (JAXBException jaxbe) {
+            throw new StorageOperationException("Error converting address book into storage format");
+        } catch (StorageFileIsDeleteException sfide) {
+            throw sfide;
+        }
     }
 
     /**
