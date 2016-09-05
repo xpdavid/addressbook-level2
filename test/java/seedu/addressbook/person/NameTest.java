@@ -46,7 +46,7 @@ public class NameTest {
 	}
 	
 	@Test
-	public void isSimilar_MixedOrderOfWords_shouldReturnTrue() {
+	public void isSimilar_mixedOrderOfWords_shouldReturnTrue() {
 		try {
     	        Name name1 = new Name("john doe Leo");
     	        Name name2 = new Name("Leo john doe");
@@ -112,7 +112,6 @@ public class NameTest {
 	        fail("Name is not Valid");
         }
 	}
-	
 	
 	
 }

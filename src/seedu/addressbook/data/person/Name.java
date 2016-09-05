@@ -56,14 +56,8 @@ public class Name {
     	     }
     	     String theFullName = this.fullName.toLowerCase();
     	     String theOtherFullName = other.fullName.toLowerCase();
-    	     if (theFullName.equals(theOtherFullName)) {
-    	    	     return true;
-    	     }
     	     Set<String> theFullNameWordsSet = new HashSet<String>(Arrays.asList(theFullName.split(" ")));
     	     Set<String> theOtherFullNameWordsSet = new HashSet<String>(Arrays.asList(theOtherFullName.split(" ")));
-    	     if(theFullNameWordsSet.containsAll(theOtherFullNameWordsSet) || theOtherFullNameWordsSet.containsAll(theFullNameWordsSet)) {
-    	    	     return true;
-    	     }
     	     int numberOfWord = Math.min(theFullNameWordsSet.size(), theOtherFullNameWordsSet.size());
     	     int tolerance = numberOfWord / 2;
     	     theFullNameWordsSet.removeAll(Arrays.asList(theOtherFullName.split(" ")));
@@ -71,7 +65,6 @@ public class Name {
     	     if (theFullNameWordsSet.size() <= tolerance || theOtherFullNameWordsSet.size() <= tolerance) {
     	    	     return true;
     	     }
-    	     
     	     return false;
      }
 
