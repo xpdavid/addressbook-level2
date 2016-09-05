@@ -67,4 +67,15 @@ public class NameTest {
         }
 	}
 	
+	@Test
+	public void isSimilar_superSetOfWords_shouldReturnTrue() {
+		try {
+	        Name name1 = new Name("Leo");
+	        Name name2 = new Name("john doe Leo");
+	        assertEquals(name1.isSimilar(name2), true);
+        } catch (IllegalValueException e) {
+	        fail("Name is not Valid");
+        }
+	}
+	
 }

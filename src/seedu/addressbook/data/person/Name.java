@@ -61,7 +61,7 @@ public class Name {
     	     }
     	     Set<String> theFullNameWordsSet = new HashSet<String>(Arrays.asList(theFullName.split(" ")));
     	     Set<String> theOtherFullNameWordsSet = new HashSet<String>(Arrays.asList(theOtherFullName.split(" ")));
-    	     if(theFullNameWordsSet.containsAll(theOtherFullNameWordsSet)) {
+    	     if(theFullNameWordsSet.containsAll(theOtherFullNameWordsSet) || theOtherFullNameWordsSet.containsAll(theFullNameWordsSet)) {
     	    	     return true;
     	     }
     	     return false;
