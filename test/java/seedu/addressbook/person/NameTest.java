@@ -34,4 +34,15 @@ public class NameTest {
         }
 	}
 	
+	@Test
+	public void isSimilar_sameWordsMixedCase_shouldReturntTrue() {
+		try {
+    	        Name name1 = new Name("joHn doE");
+    	        Name name2 = new Name("jOhN dOe");
+    	        assertEquals(name1.isSimilar(name2), true);
+        } catch (IllegalValueException e) {
+    	        fail("Name is not Valid");
+        }
+	}
+	
 }

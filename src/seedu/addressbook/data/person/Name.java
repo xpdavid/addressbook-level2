@@ -52,7 +52,9 @@ public class Name {
     	     if (other == null) {
     	    	     return false;
     	     }
-    	     if (this.fullName.equals(other.fullName)) {
+    	     String thefullName = this.fullName.toLowerCase();
+    	     String theOtherFullName = other.fullName.toLowerCase();
+    	     if (thefullName.equals(theOtherFullName)) {
     	    	     return true;
     	     }
     	     return false;
