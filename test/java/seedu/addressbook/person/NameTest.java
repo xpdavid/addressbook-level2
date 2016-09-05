@@ -22,6 +22,16 @@ public class NameTest {
     	        fail("Name is not Valid");
         }
 	}
-
-
+	
+	@Test
+	public void isSimilar_sameWords_shouldReturntTrue() {
+		try {
+    	        Name name1 = new Name("john doe");
+    	        Name name2 = new Name("john doe");
+    	        assertEquals(name1.isSimilar(name2), true);
+        } catch (IllegalValueException e) {
+    	        fail("Name is not Valid");
+        }
+	}
+	
 }
