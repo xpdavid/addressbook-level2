@@ -26,12 +26,12 @@ public class UtilsTest {
      */
     
 	@Test
-	public void check_isAnyNull_emptyInput() {
+	public void isAnyNull_emptyInput_shouldReturnFalse() {
 		assertEquals(Utils.isAnyNull(), false);
 	}
 	
 	@Test
-	public void check_isAnyNull_noNullInputs() {
+	public void isAnyNull_noNullInputs_shouldReturnFalse() {
 		assertEquals(Utils.isAnyNull((new Object()),
 				                     (new Object()),
 				                     (new Object()),
@@ -39,7 +39,7 @@ public class UtilsTest {
 	}
 	
 	@Test
-	public void check_isAnyNull_hasNullInputs() {
+	public void isAnyNull_hasNullInputs_shouldReturnTrue() {
 		assertEquals(Utils.isAnyNull((new Object()),
 				                     (new Object()),
 				                     nullObject,
@@ -47,13 +47,13 @@ public class UtilsTest {
 	}
 	
 	@Test
-	public void check_isAnyNull_allNullInput_1() {
+	public void isAnyNull_allNullInput_shouldReturnTrue() {
 		Object test = null;
 		assertEquals(Utils.isAnyNull(test), true);
 	}
 	
 	@Test
-	public void check_isAnyNull_allNullInput_2() {
+	public void isAnyNull_allNullInputs_shouldReturnTrue() {
 		assertEquals(Utils.isAnyNull(nullObject, nullObject), true);
 	}
 	
@@ -62,20 +62,20 @@ public class UtilsTest {
      */
 	
 	@Test
-	public void check_isElementsUnique_emptyCollection() {
+	public void isElementsUnique_emptyCollection_shouldReturnTrue() {
 		collection.clear();
 		assertEquals(Utils.elementsAreUnique(collection), true);
 	}
 	
 	@Test
-	public void check_isElementsUnique_oneElement() {
+	public void isElementsUnique_oneElement_shouldReturnTrue() {
 		collection.clear();
 		collection.add("test");
 		assertEquals(Utils.elementsAreUnique(collection), true);
 	}
 	
 	@Test
-	public void check_isElementsUnique_uniqueElements() {
+	public void isElementsUnique_uniqueElements_shouldReturnTrue() {
 		collection.clear();
 		collection.add("a");
 		collection.add("b");
@@ -85,7 +85,7 @@ public class UtilsTest {
 	}
 	
 	@Test
-	public void check_isElementsUnique_oneDuplicatedElement() {
+	public void isElementsUnique_oneDuplicatedElement_shouldReturnFalse() {
 		collection.clear();
 		collection.add("a");
 		collection.add("a");
@@ -94,7 +94,7 @@ public class UtilsTest {
 	}
 	
 	@Test
-	public void check_isElementsUnique_allDuplicatedElements() {
+	public void isElementsUnique_allDuplicatedElements_shouldReturnFalse() {
 		collection.clear();
 		collection.add("a");
 		collection.add("a");
