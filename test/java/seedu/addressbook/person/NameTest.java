@@ -78,4 +78,15 @@ public class NameTest {
         }
 	}
 	
+	@Test
+	public void isSimilar_differentSingleWord_shouldReturnFalse() {
+		try {
+	        Name name1 = new Name("Leo");
+	        Name name2 = new Name("Xiao");
+	        assertEquals(name1.isSimilar(name2), false);
+        } catch (IllegalValueException e) {
+	        fail("Name is not Valid");
+        }
+	}
+	
 }
