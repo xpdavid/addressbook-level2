@@ -3,7 +3,9 @@ package seedu.addressbook.data.person;
 import seedu.addressbook.data.exception.IllegalValueException;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a Person's name in the address book.
@@ -52,9 +54,14 @@ public class Name {
     	     if (other == null) {
     	    	     return false;
     	     }
-    	     String thefullName = this.fullName.toLowerCase();
+    	     String theFullName = this.fullName.toLowerCase();
     	     String theOtherFullName = other.fullName.toLowerCase();
-    	     if (thefullName.equals(theOtherFullName)) {
+    	     if (theFullName.equals(theOtherFullName)) {
+    	    	     return true;
+    	     }
+    	     Set<String> theFullNameWordsSet = new HashSet<String>(Arrays.asList(theFullName.split(" ")));
+    	     Set<String> theOtherFullNameWordsSet = new HashSet<String>(Arrays.asList(theOtherFullName.split(" ")));
+    	     if(theFullNameWordsSet.containsAll(theOtherFullNameWordsSet)) {
     	    	     return true;
     	     }
     	     return false;

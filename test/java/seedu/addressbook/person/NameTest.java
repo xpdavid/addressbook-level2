@@ -24,7 +24,7 @@ public class NameTest {
 	}
 	
 	@Test
-	public void isSimilar_sameWords_shouldReturntTrue() {
+	public void isSimilar_sameWords_shouldReturnTrue() {
 		try {
     	        Name name1 = new Name("john doe");
     	        Name name2 = new Name("john doe");
@@ -35,10 +35,21 @@ public class NameTest {
 	}
 	
 	@Test
-	public void isSimilar_sameWordsMixedCase_shouldReturntTrue() {
+	public void isSimilar_sameWordsMixedCase_shouldReturnTrue() {
 		try {
     	        Name name1 = new Name("joHn doE");
     	        Name name2 = new Name("jOhN dOe");
+    	        assertEquals(name1.isSimilar(name2), true);
+        } catch (IllegalValueException e) {
+    	        fail("Name is not Valid");
+        }
+	}
+	
+	@Test
+	public void isSimilar_MixedOrderOfWords_shouldReturnTrue() {
+		try {
+    	        Name name1 = new Name("john doe Leo");
+    	        Name name2 = new Name("Leo john doe");
     	        assertEquals(name1.isSimilar(name2), true);
         } catch (IllegalValueException e) {
     	        fail("Name is not Valid");
