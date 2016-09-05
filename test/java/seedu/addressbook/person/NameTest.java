@@ -89,4 +89,30 @@ public class NameTest {
         }
 	}
 	
+	@Test
+	public void isSimilar_differenceLessThanOrEqualHalfOfTheNumberOfWords_shouldReturnTrue() {
+		try {
+	        Name name1 = new Name("Leo John xin");
+	        Name name2 = new Name("Leo John");
+	        assertEquals(name1.isSimilar(name2), true);
+	        assertEquals(name2.isSimilar(name1), true);
+        } catch (IllegalValueException e) {
+	        fail("Name is not Valid");
+        }
+	}
+	
+	@Test
+	public void isSimilar_differenceMoreThanHalfOfTheNumberOfWords_shouldReturnFalse() {
+		try {
+	        Name name1 = new Name("Leo John xin");
+	        Name name2 = new Name("Lew");
+	        assertEquals(name1.isSimilar(name2), false);
+	        assertEquals(name2.isSimilar(name1), false);
+        } catch (IllegalValueException e) {
+	        fail("Name is not Valid");
+        }
+	}
+	
+	
+	
 }

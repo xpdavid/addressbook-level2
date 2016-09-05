@@ -64,6 +64,14 @@ public class Name {
     	     if(theFullNameWordsSet.containsAll(theOtherFullNameWordsSet) || theOtherFullNameWordsSet.containsAll(theFullNameWordsSet)) {
     	    	     return true;
     	     }
+    	     int numberOfWord = Math.min(theFullNameWordsSet.size(), theOtherFullNameWordsSet.size());
+    	     int tolerance = numberOfWord / 2;
+    	     theFullNameWordsSet.removeAll(Arrays.asList(theOtherFullName.split(" ")));
+    	     theOtherFullNameWordsSet.removeAll(Arrays.asList(theFullName.split(" ")));
+    	     if (theFullNameWordsSet.size() <= tolerance || theOtherFullNameWordsSet.size() <= tolerance) {
+    	    	     return true;
+    	     }
+    	     
     	     return false;
      }
 
